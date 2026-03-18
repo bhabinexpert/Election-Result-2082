@@ -2,6 +2,8 @@
 .env
 .env.*
 !.env.example
+Frontend/.env
+Backend/.env
 
 # ----- Dependencies -----
 node_modules/

@@ -1,14 +1,12 @@
 // ----- API Service -----
 // Centralized API calls to the backend using Axios
-// Change VITE_API_URL in .env to update the backend URL everywhere
+// Set VITE_API_URL in .env to configure the backend URL
 
 import axios from "axios";
 
-// Single source of truth for the backend URL.
-// In development: defaults to localhost:5000
-// In production: set VITE_API_URL in .env or hosting environment
+// Backend API base URL from environment variable
 const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/elections`,
+  baseURL: `${import.meta.env.VITE_API_URL}/api/elections`,
 });
 
 /**

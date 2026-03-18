@@ -19,7 +19,7 @@ function App() {
         </Routes>
         <footer className="text-center py-6 border-t border-gray-200 mt-8">
           <p className="text-sm text-gray-400">
-            Nepal Election 2082 Results Dashboard &mdash; Built with MERN Stack
+            Nepal Election 2082 Results Dashboard &mdash; Built with Love by Bhabin.
           </p>
         </footer>
       </div>

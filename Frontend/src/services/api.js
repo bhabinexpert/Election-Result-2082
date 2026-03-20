@@ -5,8 +5,9 @@
 import axios from "axios";
 
 // Backend API base URL from environment variable
+const API_URL = import.meta.env.VITE_API_URL || "https://election-result-2082.onrender.com";
 const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/elections`,
+  baseURL: `${API_URL}/api/elections`,
 });
 
 /**

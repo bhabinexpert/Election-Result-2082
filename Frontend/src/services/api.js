@@ -5,7 +5,18 @@
 import axios from "axios";
 
 // Backend API base URL from environment variable
-const API_URL = import.meta.env.VITE_API_URL || "https://election-result-2082.onrender.com";
+let API_URL = import.meta.env.VITE_API_URL || "https://election-result-2082.onrender.com";
+
+// Remove trailing slash if present
+if (API_URL.endsWith("/")) {
+  API_URL = API_URL.slice(0, -1);
+}
+
+// Remove /api/elections if present to avoid duplication
+if (API_URL.endsWith("/api/elections")) {
+  API_URL = API_URL.replace("/api/elections", "");
+}
+
 const API = axios.create({
   baseURL: `${API_URL}/api/elections`,
 });

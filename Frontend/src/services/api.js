@@ -60,6 +60,10 @@ export const getStatsByDistrict = (filters = {}) =>
 export const getStatsByGender = (filters = {}) =>
   API.get("/stats/by-gender", { params: buildParams(filters) });
 
+/** Fetch vote stats grouped by constituency */
+export const getStatsByConstituency = (filters = {}) =>
+  API.get("/stats/by-constituency", { params: buildParams(filters) });
+
 /** Fetch top candidates by votes */
 export const getTopCandidates = (filters = {}) =>
   API.get("/stats/top-candidates", { params: buildParams(filters) });

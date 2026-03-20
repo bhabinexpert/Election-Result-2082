@@ -1,17 +1,16 @@
 // ----- Wikipedia Image Service -----
 // Fetches candidate photos from Wikipedia with caching and fallback support.
 // Tries English Wikipedia first, then Nepali Wikipedia, then falls back to placeholder avatar.
+// Uses MediaWiki Action API to prevent 404 errors in console for missing pages.
 
 import { getAvatarUrl } from "./colors";
 
 // ----- Constants -----
 
 const WIKIPEDIA_API = {
-  EN: "https://en.wikipedia.org/api/rest_v1/page/summary",
-  NE: "https://ne.wikipedia.org/api/rest_v1/page/summary",
+  EN: "https://en.wikipedia.org/w/api.php",
+  NE: "https://ne.wikipedia.org/w/api.php",
 };
-
-const API_USER_AGENT = "ElectionResult2082/1.0";
 
 // In-memory cache to avoid redundant API calls during session
 const imageCache = new Map();
@@ -19,21 +18,42 @@ const imageCache = new Map();
 // ----- Helper Functions -----
 
 /**
- * Attempts to fetch an image from a specific Wikipedia language edition.
- * @param {string} url - Full Wikipedia API URL
+ * Attempts to fetch an image from a specific Wikipedia language edition using the Action API.
+ * This API returns 200 OK even if the page is missing, preventing 404 console errors.
+ * 
+ * @param {string} baseUrl - Wikipedia Action API URL
+ * @param {string} title - Page title to search
+ * @param {number} size - Thumbnail size
  * @returns {Promise<string|null>} - Thumbnail URL or null if not found
  */
-const fetchFromWikipedia = async (url) => {
+const fetchFromWikipedia = async (baseUrl, title, size) => {
   try {
-    const response = await fetch(url, {
-      headers: { "Api-User-Agent": API_USER_AGENT },
+    const params = new URLSearchParams({
+      action: "query",
+      titles: title,
+      prop: "pageimages",
+      format: "json",
+      pithumbsize: size,
+      origin: "*", // Required for CORS
+      redirects: "1" // Automatically follow redirects
     });
+
+    const response = await fetch(`${baseUrl}?${params.toString()}`);
 
     if (!response.ok) return null;
 
     const data = await response.json();
-    return data.thumbnail?.source || null;
-  } catch {
+    const pages = data.query?.pages;
+
+    if (!pages) return null;
+
+    // The API returns an object with page IDs as keys. "-1" means missing.
+    const pageId = Object.keys(pages)[0];
+    if (pageId === "-1") return null;
+
+    return pages[pageId].thumbnail?.source || null;
+  } catch (error) {
+    // Silently fail on network errors to avoid disrupting the UI
     return null;
   }
 };
@@ -41,7 +61,7 @@ const fetchFromWikipedia = async (url) => {
 // ----- Exported Functions -----
 
 /**
- * Fetches candidate image from Wikipedia REST API.
+ * Fetches candidate image from Wikipedia Action API.
  * Attempts English Wikipedia first, falls back to Nepali Wikipedia,
  * and finally returns a placeholder avatar if no image is found.
  *
@@ -53,14 +73,12 @@ export const getWikipediaImage = async (name, size = 200) => {
   // Return fallback immediately if no name provided
   if (!name) return getAvatarUrl(name, size);
 
-  const encodedName = encodeURIComponent(name.trim());
-
   // Try English Wikipedia first
-  const enImage = await fetchFromWikipedia(`${WIKIPEDIA_API.EN}/${encodedName}`);
+  const enImage = await fetchFromWikipedia(WIKIPEDIA_API.EN, name, size);
   if (enImage) return enImage;
 
   // Try Nepali Wikipedia as fallback
-  const neImage = await fetchFromWikipedia(`${WIKIPEDIA_API.NE}/${encodedName}`);
+  const neImage = await fetchFromWikipedia(WIKIPEDIA_API.NE, name, size);
   if (neImage) return neImage;
 
   // No Wikipedia image found, return placeholder avatar

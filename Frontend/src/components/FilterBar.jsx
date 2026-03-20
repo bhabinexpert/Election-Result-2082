@@ -1,7 +1,10 @@
 // ----- FilterBar Component -----
 // Dropdown filters for province, district, constituency, party, and gender
 
+import { useAppSettings } from "../context/AppSettingsContext";
+
 const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
+  const { t } = useAppSettings();
   // Get districts filtered by selected province
   const filteredDistricts = filters.province_id
     ? filterOptions.districts.filter(
@@ -23,17 +26,17 @@ const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
   const hasActiveFilters = Object.values(filters).some((v) => v !== "");
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-4 mb-6 card-3d">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
-          Filter Results
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-200 uppercase tracking-wider">
+          {t.common.filterResults}
         </h3>
         {hasActiveFilters && (
           <button
             onClick={resetFilters}
             className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors cursor-pointer"
           >
-            Clear All
+            {t.common.clearAll}
           </button>
         )}
       </div>
@@ -48,9 +51,9 @@ const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
             updateFilter("district_id", "");
             updateFilter("constituency", "");
           }}
-          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
+          className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
         >
-          <option value="">All Provinces</option>
+          <option value="">{t.common.allProvinces}</option>
           {filterOptions.provinces.map((p) => (
             <option key={p.province_id} value={p.province_id}>
               {p.province_name}
@@ -65,9 +68,9 @@ const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
             updateFilter("district_id", e.target.value);
             updateFilter("constituency", "");
           }}
-          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
+          className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
         >
-          <option value="">All Districts</option>
+          <option value="">{t.common.allDistricts}</option>
           {filteredDistricts.map((d) => (
             <option key={d.district_id} value={d.district_id}>
               {d.district_name}
@@ -79,9 +82,9 @@ const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
         <select
           value={filters.constituency}
           onChange={(e) => updateFilter("constituency", e.target.value)}
-          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
+          className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
         >
-          <option value="">All Constituencies</option>
+          <option value="">{t.common.allConstituencies}</option>
           {filteredConstituencies.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -93,9 +96,9 @@ const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
         <select
           value={filters.party}
           onChange={(e) => updateFilter("party", e.target.value)}
-          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
+          className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
         >
-          <option value="">All Parties</option>
+          <option value="">{t.common.allParties}</option>
           {filterOptions.parties.map((p) => (
             <option key={p} value={p}>
               {p}
@@ -107,12 +110,12 @@ const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
         <select
           value={filters.gender}
           onChange={(e) => updateFilter("gender", e.target.value)}
-          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
+          className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
         >
-          <option value="">All Genders</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
+          <option value="">{t.common.allGenders}</option>
+          <option value="male">{t.common.male}</option>
+          <option value="female">{t.common.female}</option>
+          <option value="other">{t.common.other}</option>
         </select>
       </div>
     </div>

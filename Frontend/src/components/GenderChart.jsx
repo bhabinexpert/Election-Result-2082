@@ -6,12 +6,14 @@ import {
 } from "recharts";
 import { formatNumber } from "../utils/formatters";
 import { GENDER_COLORS } from "../utils/colors";
+import { useAppSettings } from "../context/AppSettingsContext";
 
 const GenderChart = ({ data }) => {
+  const { t } = useAppSettings();
   if (!data || data.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-gray-400">
-        No data available
+          {t.common.noData}
       </div>
     );
   }
@@ -27,10 +29,10 @@ const GenderChart = ({ data }) => {
     if (active && payload?.[0]) {
       const d = payload[0].payload;
       return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-100 text-sm">
-          <p className="font-semibold text-gray-800">{d.name}</p>
-          <p className="text-gray-500">Candidates: <span className="font-medium text-gray-800">{formatNumber(d.candidates)}</span></p>
-          <p className="text-gray-500">Votes: <span className="font-medium text-gray-800">{formatNumber(d.votes)}</span></p>
+        <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 text-sm">
+          <p className="font-semibold text-gray-800 dark:text-slate-100">{d.name}</p>
+          <p className="text-gray-500 dark:text-slate-300">{t.common.candidates}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.candidates)}</span></p>
+          <p className="text-gray-500 dark:text-slate-300">{t.common.votes}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.votes)}</span></p>
         </div>
       );
     }
@@ -38,8 +40,8 @@ const GenderChart = ({ data }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Gender Distribution</h3>
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-5">
+      <h3 className="text-lg font-semibold text-gray-800 dark:text-slate-100 mb-4">{t.charts.genderDistribution}</h3>
       <ResponsiveContainer width="100%" height={340}>
         <PieChart>
           <Pie

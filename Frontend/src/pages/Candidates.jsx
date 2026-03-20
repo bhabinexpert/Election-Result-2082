@@ -9,10 +9,11 @@ import { formatNumber } from "../utils/formatters";
 import { getAvatarUrl } from "../utils/colors";
 import { getCachedWikipediaImage } from "../utils/wikipedia";
 import { HiSearch, HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useAppSettings } from "../context/AppSettingsContext";
 
 // ----- Candidate Card Component -----
 
-const CandidateCard = ({ candidate }) => {
+const CandidateCard = ({ candidate, t }) => {
   const [photoUrl, setPhotoUrl] = useState(null);
   const c = candidate;
 
@@ -28,10 +29,10 @@ const CandidateCard = ({ candidate }) => {
   return (
     <Link
       to={`/candidates/${c._id}`}
-      className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-[#1B2A4A]/20 transition-all group"
+      className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:border-[#1B2A4A]/20 transition-all group card-3d"
     >
       {/* Large Photo Section */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+      <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-slate-800 dark:to-slate-900 overflow-hidden">
         <img
           src={photoUrl || getAvatarUrl(c.candidate_name, 300)}
           alt={c.candidate_name}
@@ -42,10 +43,10 @@ const CandidateCard = ({ candidate }) => {
         />
         {/* Vote Badge */}
         <div className="absolute bottom-3 right-3 bg-[#DC143C] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-          {formatNumber(c.votes)} votes
+          {formatNumber(c.votes)} {t.common.votes}
         </div>
         {/* Gender Badge */}
-        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs font-medium px-2 py-1 rounded-full capitalize text-gray-700">
+        <div className="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-xs font-medium px-2 py-1 rounded-full capitalize text-gray-700 dark:text-slate-200">
           {c.gender}
         </div>
       </div>
@@ -53,28 +54,28 @@ const CandidateCard = ({ candidate }) => {
       {/* Card Body */}
       <div className="p-4">
         {/* Name & Party */}
-        <h3 className="font-bold text-gray-900 text-lg truncate group-hover:text-[#1B2A4A] transition-colors">
+        <h3 className="font-bold text-gray-900 dark:text-slate-100 text-lg truncate group-hover:text-[#1B2A4A] transition-colors">
           {c.candidate_name}
         </h3>
-        <p className="text-sm text-[#1B2A4A] font-medium truncate mt-0.5">
+        <p className="text-sm text-[#1B2A4A] dark:text-cyan-300 font-medium truncate mt-0.5">
           {c.party}
         </p>
 
         {/* Location Info */}
-        <div className="mt-3 pt-3 border-t border-gray-100 space-y-1.5 text-sm">
+        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-slate-800 space-y-1.5 text-sm">
           <div className="flex justify-between items-center">
-            <span className="text-gray-500">Constituency</span>
-            <span className="text-gray-700 font-medium text-right truncate ml-2 max-w-[55%]">
+            <span className="text-gray-500 dark:text-slate-400">{t.common.constituency}</span>
+            <span className="text-gray-700 dark:text-slate-200 font-medium text-right truncate ml-2 max-w-[55%]">
               {c.constituency}
             </span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-500">District</span>
-            <span className="text-gray-700 font-medium">{c.district_name}</span>
+            <span className="text-gray-500 dark:text-slate-400">{t.common.district}</span>
+            <span className="text-gray-700 dark:text-slate-200 font-medium">{c.district_name}</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-500">Age</span>
-            <span className="text-gray-700 font-medium">{c.age} years</span>
+            <span className="text-gray-500 dark:text-slate-400">{t.common.age}</span>
+            <span className="text-gray-700 dark:text-slate-200 font-medium">{c.age} {t.common.years}</span>
           </div>
         </div>
       </div>
@@ -85,6 +86,7 @@ const CandidateCard = ({ candidate }) => {
 // ----- Main Candidates Page -----
 
 const Candidates = () => {
+  const { t } = useAppSettings();
   // ----- State -----
   const [candidates, setCandidates] = useState([]);
   const [pagination, setPagination] = useState({});
@@ -139,15 +141,14 @@ const Candidates = () => {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Page Header */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">All Candidates</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Browse and search {formatNumber(pagination.total || 0)} candidates in
-          Nepal Election 2082
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-slate-100">{t.candidatesPage.title}</h2>
+        <p className="text-sm text-gray-500 dark:text-slate-300 mt-1">
+          {t.candidatesPage.subtitlePrefix} {formatNumber(pagination.total || 0)} {t.candidatesPage.subtitleSuffix}
         </p>
       </div>
 
       {/* Search and Filters Bar */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-4 mb-6 card-3d">
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search Input */}
           <div className="relative flex-1">
@@ -156,8 +157,8 @@ const Candidates = () => {
               type="text"
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Search by candidate name..."
-              className="w-full pl-10 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
+              placeholder={t.candidatesPage.searchPlaceholder}
+              className="w-full pl-10 pr-4 py-2.5 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent transition-all"
             />
           </div>
 
@@ -168,9 +169,9 @@ const Candidates = () => {
               setParty(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent cursor-pointer"
+            className="px-4 py-2.5 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent cursor-pointer"
           >
-            <option value="">All Parties</option>
+            <option value="">{t.common.allParties}</option>
             {parties.map((p) => (
               <option key={p} value={p}>
                 {p}
@@ -185,12 +186,12 @@ const Candidates = () => {
               setGender(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent cursor-pointer"
+            className="px-4 py-2.5 text-sm border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A] focus:border-transparent cursor-pointer"
           >
-            <option value="">All Genders</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="">{t.common.allGenders}</option>
+            <option value="male">{t.common.male}</option>
+            <option value="female">{t.common.female}</option>
+            <option value="other">{t.common.other}</option>
           </select>
         </div>
       </div>
@@ -202,17 +203,17 @@ const Candidates = () => {
         </div>
       ) : candidates.length === 0 ? (
         /* Empty State */
-        <div className="text-center py-16 text-gray-400">
-          No candidates found for your search criteria.
+        <div className="text-center py-16 text-gray-400 dark:text-slate-400">
+          {t.candidatesPage.noCandidates}
         </div>
       ) : (
         <>
           {/* Candidate Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-8">
-            {candidates.map((c) => (
-              <CandidateCard key={c._id} candidate={c} />
-            ))}
-          </div>
+              {candidates.map((c) => (
+                <CandidateCard key={c._id} candidate={c} t={t} />
+              ))}
+            </div>
 
           {/* Pagination */}
           {pagination.totalPages > 1 && (
@@ -220,20 +221,20 @@ const Candidates = () => {
               <button
                 onClick={() => setPage(Math.max(1, page - 1))}
                 disabled={page <= 1}
-                className="flex items-center gap-1 px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer text-sm font-medium text-gray-700"
+                className="flex items-center gap-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer text-sm font-medium text-gray-700 dark:text-slate-200"
               >
                 <HiChevronLeft />
-                Prev
+                 {t.common.prev}
               </button>
-              <span className="text-sm text-gray-600 font-medium">
-                Page {pagination.page} of {pagination.totalPages}
+              <span className="text-sm text-gray-600 dark:text-slate-300 font-medium">
+                {t.common.page} {pagination.page} {t.common.of} {pagination.totalPages}
               </span>
               <button
                 onClick={() => setPage(Math.min(pagination.totalPages, page + 1))}
                 disabled={page >= pagination.totalPages}
-                className="flex items-center gap-1 px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer text-sm font-medium text-gray-700"
+                className="flex items-center gap-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer text-sm font-medium text-gray-700 dark:text-slate-200"
               >
-                Next
+                {t.common.next}
                 <HiChevronRight />
               </button>
             </div>

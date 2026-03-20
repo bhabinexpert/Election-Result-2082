@@ -11,12 +11,20 @@ import {
 } from "recharts";
 import { formatNumber, calcPercentage } from "../utils/formatters";
 import { CHART_COLORS } from "../utils/colors";
+import { useAppSettings } from "../context/AppSettingsContext";
 
-const VoteSharePieChart = ({ data }) => {
+const VoteSharePieChart = ({
+  data,
+  title = "Vote Share",
+  valueLabel = "Votes",
+  nameKey = "party",
+  othersLabel = "Others",
+}) => {
+  const { t } = useAppSettings();
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-gray-400">
-        No data available
+      <div className="flex items-center justify-center h-64 text-gray-400 dark:text-slate-400">
+        {t.common.noData}
       </div>
     );
   }
@@ -26,23 +34,23 @@ const VoteSharePieChart = ({ data }) => {
   const otherVotes = data.slice(6).reduce((sum, d) => sum + d.totalVotes, 0);
   const chartData = [
     ...topParties,
-    ...(otherVotes > 0 ? [{ party: "Others", totalVotes: otherVotes }] : []),
+    ...(otherVotes > 0 ? [{ [nameKey]: othersLabel, totalVotes: otherVotes }] : []),
   ];
   const grandTotal = chartData.reduce((sum, d) => sum + d.totalVotes, 0);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Vote Share</h3>
-      <ResponsiveContainer width="100%" height={380}>
+    <div className="bg-white/90 dark:bg-slate-900/90 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-5 card-3d">
+      <h3 className="text-lg font-semibold text-gray-800 dark:text-slate-100 mb-4">{title}</h3>
+      <ResponsiveContainer width="100%" height={400}>
         <PieChart>
           <Pie
             data={chartData}
             dataKey="totalVotes"
-            nameKey="party"
+            nameKey={nameKey}
             cx="50%"
-            cy="50%"
-            outerRadius={120}
-            innerRadius={60}
+            cy="45%"
+            outerRadius={105}
+            innerRadius={55}
             paddingAngle={2}
           >
             {chartData.map((_, i) => (
@@ -52,14 +60,15 @@ const VoteSharePieChart = ({ data }) => {
           <Tooltip
             formatter={(value) => [
               `${formatNumber(value)} (${calcPercentage(value, grandTotal)}%)`,
-              "Votes",
+              valueLabel,
             ]}
             contentStyle={{ borderRadius: "8px", border: "1px solid #e5e7eb" }}
           />
           <Legend
             verticalAlign="bottom"
-            height={36}
-            formatter={(v) => (v.length > 20 ? v.slice(0, 20) + "…" : v)}
+            height={100}
+            wrapperStyle={{ paddingTop: "20px", fontSize: "12px" }}
+            formatter={(v) => (v.length > 35 ? v.slice(0, 35) + "…" : v)}
           />
         </PieChart>
       </ResponsiveContainer>

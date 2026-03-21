@@ -3,7 +3,7 @@
 
 import { NavLink } from "react-router-dom";
 import NepalFlag from "./NepalFlag";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 
 const Navbar = () => {

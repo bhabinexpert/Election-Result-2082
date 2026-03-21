@@ -1,6 +1,6 @@
 // ----- Loading Spinner Component -----
 // Displayed while data is being fetched
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 const LoadingSpinner = () => {
   const { t } = useAppSettings();

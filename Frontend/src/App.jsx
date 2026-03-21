@@ -10,7 +10,7 @@ import Parties from "./pages/Parties";
 import Constituencies from "./pages/Constituencies";
 import PartyDetail from "./pages/PartyDetail";
 import ConstituencyDetail from "./pages/ConstituencyDetail";
-import { useAppSettings } from "./context/AppSettingsContext";
+import { useAppSettings } from "./context/useAppSettings";
 
 function App() {
   const { t } = useAppSettings();

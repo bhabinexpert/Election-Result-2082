@@ -19,7 +19,8 @@ import { formatNumber } from "./utils/formatters";
 const AppContent = () => {
   const { t } = useAppSettings();
   const location = useLocation();
-  const [viewStats, setViewStats] = useState(null);
+  const [viewStats, setViewStats] = useState({ uniqueVisitors: 0 });
+  const [viewsStatus, setViewsStatus] = useState("loading");
   const trackedRef = useRef(new Set());
 
   useEffect(() => {
@@ -28,16 +29,21 @@ const AppContent = () => {
     const key = `${path}:${visitorId}`;
 
     const sendAnalytics = async () => {
+      setViewsStatus("loading");
       try {
         if (!trackedRef.current.has(key)) {
           trackedRef.current.add(key);
           await trackPageView({ path, visitorId });
         }
         const statsResponse = await getPageViewStats({ path, visitorId });
-        setViewStats(statsResponse.data?.data || null);
+        const stats = statsResponse.data?.data;
+        setViewStats({
+          uniqueVisitors: stats?.uniqueVisitors || 0,
+        });
+        setViewsStatus("ready");
       } catch (error) {
         console.error("Failed to load view analytics", error);
-        setViewStats(null);
+        setViewsStatus("error");
       }
     };
 
@@ -59,12 +65,13 @@ const AppContent = () => {
         </Routes>
         <footer className="text-center py-6 border-t border-gray-200 dark:border-slate-800 mt-8">
           <p className="text-sm text-gray-400 dark:text-slate-400">{t.app.footer}</p>
-          {viewStats && (
-            <p className="text-xs text-gray-500 dark:text-slate-400 mt-2">
-              {t.app.viewsLabel}: {formatNumber(viewStats.totalViews)} | {t.app.uniqueVisitorsLabel}:{" "}
-              {formatNumber(viewStats.uniqueVisitors)} | {t.app.yourViewsLabel}: {formatNumber(viewStats.myViews)}
-            </p>
-          )}
+          <div className="max-w-7xl mx-auto mt-3 px-4 sm:px-6 lg:px-8 flex justify-end">
+            <div className="rounded-xl border border-gray-200/90 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-4 py-2 text-xs sm:text-sm text-gray-700 dark:text-slate-200 shadow-sm">
+              Visitor Count: {formatNumber(viewStats.uniqueVisitors)}
+              {viewsStatus === "loading" && <span className="ml-2 opacity-70">(loading...)</span>}
+              {viewsStatus === "error" && <span className="ml-2 text-amber-600 dark:text-amber-400">(offline)</span>}
+            </div>
+          </div>
         </footer>
       </div>
     </div>

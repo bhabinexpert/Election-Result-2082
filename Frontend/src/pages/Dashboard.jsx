@@ -20,7 +20,6 @@ import {
   HiOutlineOfficeBuilding,
   HiOutlineLocationMarker,
   HiOutlineStar,
-  HiOutlineUserGroup,
   HiOutlineGlobe,
   HiOutlineClipboardList,
 } from "react-icons/hi";
@@ -116,20 +115,13 @@ const Dashboard = () => {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <StatCard
               title={t.dashboard.highestVotes}
               value={overview?.highestVotes || 0}
               icon={<HiOutlineStar />}
               color="rust"
               subtitle={overview?.topCandidate?.candidate_name || ""}
-            />
-            <StatCard
-              title={t.dashboard.filteredResults}
-              value={tableData?.pagination?.total || 0}
-              icon={<HiOutlineUserGroup />}
-              color="ocean"
-              subtitle={t.dashboard.matchingFilters}
             />
             <StatCard
               title={t.dashboard.provinces}

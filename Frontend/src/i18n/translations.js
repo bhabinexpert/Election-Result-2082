@@ -157,7 +157,7 @@ export const translations = {
     app: {
       title: "नेपाल निर्वाचन २०८२",
       subtitle: "प्रतिनिधि सभा",
-      footer: "नेपाल निर्वाचन २०८२ नतिजा ड्यासबोर्ड — प्रेम सहित निर्माण।",
+      footer: "नेपाल निर्वाचन २०८२ नतिजा ड्यासबोर्ड — भबिन द्वारा निर्माण।",
       viewsLabel: "पृष्ठ दृश्य",
       uniqueVisitorsLabel: "अद्वितीय आगन्तुक",
       yourViewsLabel: "तपाईंका दृश्य",

@@ -1,7 +1,7 @@
 // ----- FilterBar Component -----
 // Dropdown filters for province, district, constituency, party, and gender
 
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 const FilterBar = ({ filters, filterOptions, updateFilter, resetFilters }) => {
   const { t } = useAppSettings();

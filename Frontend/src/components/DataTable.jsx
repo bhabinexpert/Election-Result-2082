@@ -4,7 +4,7 @@
 import { Link } from "react-router-dom";
 import { formatNumber } from "../utils/formatters";
 import { HiChevronLeft, HiChevronRight, HiSearch } from "react-icons/hi";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 const DataTable = ({
   data,

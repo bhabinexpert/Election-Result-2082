@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { formatNumber, calcPercentage } from "../utils/formatters";
 import { CHART_COLORS } from "../utils/colors";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 const VoteSharePieChart = ({
   data,

@@ -86,4 +86,8 @@ export const trackPageView = ({ path, visitorId }) =>
 export const getPageViewStats = ({ path, visitorId }) =>
   ANALYTICS_API.get("/views", { params: buildParams({ path, visitorId }) });
 
+/** Get global visitor stats across all pages */
+export const getGlobalStats = ({ visitorId }) =>
+  ANALYTICS_API.get("/global-stats", { params: buildParams({ visitorId }) });
+
 export default API;

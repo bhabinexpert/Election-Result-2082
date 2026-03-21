@@ -63,3 +63,29 @@ export const getPageViewStats = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const getGlobalStats = async (req, res) => {
+  try {
+    const { visitorId } = req.query;
+    console.log(`[ANALYTICS] GetGlobalStats: visitorId=${visitorId ? visitorId.substring(0, 8) + "..." : "none"}`);
+
+    const [totalViews, totalUniqueVisitors, visitorViews] = await Promise.all([
+      PageView.countDocuments({}),
+      PageView.distinct("visitorId", {}).then((ids) => ids.length),
+      isValidVisitorId(visitorId) ? PageView.countDocuments({ visitorId: visitorId.trim() }) : 0,
+    ]);
+    console.log(`[ANALYTICS] GlobalStats: total=${totalViews}, unique=${totalUniqueVisitors}, visitorViews=${visitorViews}`);
+
+    res.json({
+      success: true,
+      data: {
+        totalViews,
+        uniqueVisitors: totalUniqueVisitors,
+        visitorViews,
+      },
+    });
+  } catch (error) {
+    console.error(`[ANALYTICS] GetGlobalStats error:`, error.message);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

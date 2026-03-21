@@ -9,7 +9,7 @@ import { formatNumber } from "../utils/formatters";
 import { getAvatarUrl } from "../utils/colors";
 import { getCachedWikipediaImage } from "../utils/wikipedia";
 import { HiSearch, HiChevronLeft, HiChevronRight } from "react-icons/hi";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 // ----- Candidate Card Component -----
 

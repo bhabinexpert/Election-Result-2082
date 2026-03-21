@@ -22,7 +22,7 @@ import { getCandidateById } from "../services/api";
 import { formatNumber } from "../utils/formatters";
 import { SECONDARY, getAvatarUrl } from "../utils/colors";
 import { getCachedWikipediaImage } from "../utils/wikipedia";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 // ----- Sub-Components -----
 
@@ -97,7 +97,7 @@ const CandidateProfile = () => {
       }
     };
     fetchCandidate();
-  }, [id]);
+  }, [id, t.profile.failedLoad]);
 
   // Fetch Wikipedia image when candidate data loads (larger size for profile)
   useEffect(() => {

@@ -52,7 +52,7 @@ const fetchFromWikipedia = async (baseUrl, title, size) => {
     if (pageId === "-1") return null;
 
     return pages[pageId].thumbnail?.source || null;
-  } catch (error) {
+  } catch {
     // Silently fail on network errors to avoid disrupting the UI
     return null;
   }
@@ -69,7 +69,7 @@ const fetchFromWikipedia = async (baseUrl, title, size) => {
  * @param {number} size - Desired fallback avatar size (default: 200)
  * @returns {Promise<string>} - Image URL (Wikipedia photo or fallback avatar)
  */
-export const getWikipediaImage = async (name, size = 200) => {
+const getWikipediaImage = async (name, size = 200) => {
   // Return fallback immediately if no name provided
   if (!name) return getAvatarUrl(name, size);
 

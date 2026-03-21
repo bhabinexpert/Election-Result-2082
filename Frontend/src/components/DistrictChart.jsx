@@ -6,7 +6,22 @@ import {
 } from "recharts";
 import { formatNumber, formatShortNumber } from "../utils/formatters";
 import { SECONDARY } from "../utils/colors";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
+
+const DistrictTooltip = ({ active, payload, t }) => {
+  if (active && payload?.[0]) {
+    const d = payload[0].payload;
+    return (
+      <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 text-sm">
+        <p className="font-semibold text-gray-800 dark:text-slate-100">{d.district_name}</p>
+        <p className="text-gray-400 dark:text-slate-400">{d.province_name}</p>
+        <p className="text-gray-500 dark:text-slate-300">{t.common.votes}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.totalVotes)}</span></p>
+        <p className="text-gray-500 dark:text-slate-300">{t.common.candidates}: <span className="font-medium text-gray-800 dark:text-slate-100">{d.candidateCount}</span></p>
+      </div>
+    );
+  }
+  return null;
+};
 
 const DistrictChart = ({ data }) => {
   const { t } = useAppSettings();
@@ -20,21 +35,6 @@ const DistrictChart = ({ data }) => {
 
   // Take top 15 districts
   const chartData = data.slice(0, 15);
-
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload?.[0]) {
-      const d = payload[0].payload;
-      return (
-        <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 text-sm">
-          <p className="font-semibold text-gray-800 dark:text-slate-100">{d.district_name}</p>
-          <p className="text-gray-400 dark:text-slate-400">{d.province_name}</p>
-          <p className="text-gray-500 dark:text-slate-300">{t.common.votes}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.totalVotes)}</span></p>
-          <p className="text-gray-500 dark:text-slate-300">{t.common.candidates}: <span className="font-medium text-gray-800 dark:text-slate-100">{d.candidateCount}</span></p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-5">
@@ -53,7 +53,7 @@ const DistrictChart = ({ data }) => {
             height={100}
           />
           <YAxis tick={{ fontSize: 12, fill: "#6B7280" }} tickFormatter={formatShortNumber} />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<DistrictTooltip t={t} />} />
           <Bar dataKey="totalVotes" fill={SECONDARY} radius={[4, 4, 0, 0]} maxBarSize={40} opacity={0.85} />
         </BarChart>
       </ResponsiveContainer>

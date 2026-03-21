@@ -6,7 +6,25 @@ import {
 } from "recharts";
 import { formatNumber, formatShortNumber } from "../utils/formatters";
 import { PRIMARY } from "../utils/colors";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
+
+const PartyTooltip = ({ active, payload, t }) => {
+  if (active && payload?.[0]) {
+    const d = payload[0].payload;
+    return (
+      <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 text-sm">
+        <p className="font-semibold text-gray-800 dark:text-slate-100">{d.party}</p>
+        <p className="text-gray-500 dark:text-slate-300">
+          {t.common.votes}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.totalVotes)}</span>
+        </p>
+        <p className="text-gray-500 dark:text-slate-300">
+          {t.common.candidates}: <span className="font-medium text-gray-800 dark:text-slate-100">{d.candidateCount}</span>
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
 
 const PartyBarChart = ({ data }) => {
   const { t } = useAppSettings();
@@ -17,24 +35,6 @@ const PartyBarChart = ({ data }) => {
       </div>
     );
   }
-
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload?.[0]) {
-      const d = payload[0].payload;
-      return (
-        <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 text-sm">
-          <p className="font-semibold text-gray-800 dark:text-slate-100">{d.party}</p>
-          <p className="text-gray-500 dark:text-slate-300">
-            {t.common.votes}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.totalVotes)}</span>
-          </p>
-          <p className="text-gray-500 dark:text-slate-300">
-            {t.common.candidates}: <span className="font-medium text-gray-800 dark:text-slate-100">{d.candidateCount}</span>
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="bg-white/90 dark:bg-slate-900/90 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-5 card-3d">
@@ -51,7 +51,7 @@ const PartyBarChart = ({ data }) => {
             height={100}
           />
           <YAxis tick={{ fontSize: 12, fill: "#6B7280" }} tickFormatter={formatShortNumber} />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<PartyTooltip t={t} />} />
           <Bar dataKey="totalVotes" fill={PRIMARY} radius={[4, 4, 0, 0]} maxBarSize={40} opacity={0.85} />
         </BarChart>
       </ResponsiveContainer>

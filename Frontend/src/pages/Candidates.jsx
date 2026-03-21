@@ -9,6 +9,7 @@ import { formatNumber } from "../utils/formatters";
 import { getAvatarUrl } from "../utils/colors";
 import { getCachedWikipediaImage } from "../utils/wikipedia";
 import { HiSearch, HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import NepalFlag from "../components/NepalFlag";
 import { useAppSettings } from "../context/useAppSettings";
 
 // ----- Candidate Card Component -----
@@ -141,7 +142,10 @@ const Candidates = () => {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Page Header */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-slate-100">{t.candidatesPage.title}</h2>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <NepalFlag size={24} />
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-slate-100">{t.candidatesPage.title}</h2>
+        </div>
         <p className="text-sm text-gray-500 dark:text-slate-300 mt-1">
           {t.candidatesPage.subtitlePrefix} {formatNumber(pagination.total || 0)} {t.candidatesPage.subtitleSuffix}
         </p>

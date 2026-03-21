@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import NepalFlag from "../components/NepalFlag";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getStatsByConstituency } from "../services/api";
 import { useAppSettings } from "../context/useAppSettings";
@@ -56,10 +57,13 @@ const Constituencies = () => {
   }, [data, search, sortBy, sortOrder]);
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-slate-100">{t.constituencies.title}</h2>
-        <p className="text-sm text-gray-500 dark:text-slate-300 mt-1">{t.constituencies.subtitle}</p>
+    <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6">
+      <div className="mb-4 sm:mb-6">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <NepalFlag size={24} />
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-slate-100">{t.constituencies.title}</h2>
+        </div>
+        <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-300 mt-1">{t.constituencies.subtitle}</p>
       </div>
 
       {error ? (

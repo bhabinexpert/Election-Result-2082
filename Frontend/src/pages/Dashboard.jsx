@@ -12,6 +12,7 @@ import TopCandidatesChart from "../components/TopCandidatesChart";
 import DistrictChart from "../components/DistrictChart";
 import DataTable from "../components/DataTable";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NepalFlag from "../components/NepalFlag";
 import { formatNumber } from "../utils/formatters";
 import { useAppSettings } from "../context/useAppSettings";
 import {
@@ -71,7 +72,10 @@ const Dashboard = () => {
     <main className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6">
       {/* Page Title */}
       <div className="mb-4 sm:mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-slate-100">{t.dashboard.title}</h2>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <NepalFlag size={24} />
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-slate-100">{t.dashboard.title}</h2>
+        </div>
         <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-300 mt-1">{t.dashboard.subtitle}</p>
       </div>
 

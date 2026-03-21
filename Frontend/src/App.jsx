@@ -72,7 +72,6 @@ const AppContent = () => {
             <div className="rounded-lg sm:rounded-xl border border-gray-200/90 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 dark:text-slate-200 shadow-sm">
               Visitor Count: {formatNumber(viewStats.uniqueVisitors)}
               {viewsStatus === "loading" && <span className="ml-1 sm:ml-2 opacity-70 inline">(loading...)</span>}
-              {viewsStatus === "error" && <span className="ml-1 sm:ml-2 text-amber-600 dark:text-amber-400 inline">(offline)</span>}
             </div>
           </div>
         </footer>

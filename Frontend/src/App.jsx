@@ -36,7 +36,6 @@ const AppContent = () => {
     }
 
     // Fetch global stats on every page change
-    setViewsStatus("loading");
     getGlobalStats({ visitorId })
       .then((statsResponse) => {
         console.log("[ANALYTICS] Global stats:", statsResponse.data);
@@ -70,7 +69,7 @@ const AppContent = () => {
             {viewsStatus === "loading" ? (
               <div className="rounded-lg sm:rounded-xl border border-blue-200/90 dark:border-blue-700 bg-blue-50/90 dark:bg-blue-950/90 backdrop-blur-sm px-3 sm:px-4 py-2 text-xs sm:text-sm text-blue-700 dark:text-blue-200 shadow-sm flex items-center gap-2">
                 <LoadingSpinner size={14} />
-                <span>Fetching visitor data...</span>
+                <span>...</span>
               </div>
             ) : viewsStatus === "error" ? (
               <div className="rounded-lg sm:rounded-xl border border-red-200/90 dark:border-red-700 bg-red-50/90 dark:bg-red-950/90 backdrop-blur-sm px-3 sm:px-4 py-2 text-xs sm:text-sm text-red-700 dark:text-red-200 shadow-sm">

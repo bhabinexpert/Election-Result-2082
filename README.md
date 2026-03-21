@@ -129,6 +129,13 @@ Base URL: `/api/elections`
 | GET | `/stats/by-constituency` | Vote stats grouped by constituency |
 | GET | `/stats/top-candidates` | Top candidates by votes |
 
+Analytics Base URL: `/api/analytics`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/views` | Track one page view for a visitor (`path`, `visitorId`) |
+| GET | `/views` | Get page view stats (`path`, optional `visitorId`) |
+
 ### Query Parameters
 
 | Parameter | Type | Description |

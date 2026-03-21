@@ -91,7 +91,7 @@ const Parties = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-gray-800 dark:text-slate-100">
-                      {formatNumber(party.totalVotes)}
+                      {t.common.votes}: {formatNumber(party.totalVotes)}
                     </p>
                     <p className="text-[11px] text-cyan-600 dark:text-cyan-300 mt-1">
                       {t.parties.openDetails}

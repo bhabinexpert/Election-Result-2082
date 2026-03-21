@@ -102,7 +102,7 @@ const PartyDetail = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="rounded-xl p-4 bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/40">
-            <p className="text-xs text-red-600 dark:text-red-300">{t.common.votes}</p>
+            <p className="text-xs text-red-600 dark:text-red-300">{t.common.totalVotesReceived}</p>
             <p className="text-xl font-bold text-red-700 dark:text-red-200">{formatNumber(details.totalVotes)}</p>
           </div>
           <div className="rounded-xl p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40">
@@ -110,12 +110,14 @@ const PartyDetail = () => {
             <p className="text-xl font-bold text-blue-800 dark:text-blue-200">{formatNumber(details.candidateCount)}</p>
           </div>
           <div className="rounded-xl p-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
-            <p className="text-xs text-slate-600 dark:text-slate-300">{t.common.district}</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300">{t.common.districtCoverage}</p>
             <p className="text-xl font-bold text-slate-800 dark:text-slate-100">{details.districts}</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">{t.common.districtCoverageHelp}</p>
           </div>
           <div className="rounded-xl p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40">
-            <p className="text-xs text-emerald-600 dark:text-emerald-300">{t.common.province}</p>
+            <p className="text-xs text-emerald-600 dark:text-emerald-300">{t.common.provinceCoverage}</p>
             <p className="text-xl font-bold text-emerald-700 dark:text-emerald-200">{details.provinces}</p>
+            <p className="text-[11px] text-emerald-600/80 dark:text-emerald-300/80 mt-1">{t.common.provinceCoverageHelp}</p>
           </div>
         </div>
 

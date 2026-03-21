@@ -4,7 +4,7 @@ import { getElectionResults } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import DataTable from "../components/DataTable";
 import { formatNumber } from "../utils/formatters";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 const ConstituencyDetail = () => {
   const { constituencyName } = useParams();

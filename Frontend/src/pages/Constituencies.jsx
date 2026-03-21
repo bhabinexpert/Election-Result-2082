@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getStatsByConstituency } from "../services/api";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 import { formatNumber } from "../utils/formatters";
 
 const Constituencies = () => {
@@ -14,6 +14,8 @@ const Constituencies = () => {
   const [sortBy, setSortBy] = useState("totalVotes");
   const [sortOrder, setSortOrder] = useState("desc");
 
+  const fallbackConstituencyError = t.common.failedFetchConstituencyStats;
+
   useEffect(() => {
     const load = async () => {
       try {
@@ -21,24 +23,13 @@ const Constituencies = () => {
         const res = await getStatsByConstituency({ limit: 1000 });
         setData(res.data.data || []);
       } catch (err) {
-        setError(err.message || t.common.failedFetchConstituencyStats);
+        setError(err.message || fallbackConstituencyError);
       } finally {
         setLoading(false);
       }
     };
     load();
-  }, []);
-
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-xl p-6 max-w-md text-center">
-          <p className="text-red-600 dark:text-red-400 font-semibold text-lg mb-2">{t.common.connectionError}</p>
-          <p className="text-red-400 dark:text-red-300 text-xs mt-2">{error}</p>
-        </div>
-      </div>
-    );
-  }
+  }, [fallbackConstituencyError]);
 
   const filteredAndSorted = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -71,7 +62,12 @@ const Constituencies = () => {
         <p className="text-sm text-gray-500 dark:text-slate-300 mt-1">{t.constituencies.subtitle}</p>
       </div>
 
-      {loading ? (
+      {error ? (
+        <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-xl p-6 max-w-md text-center">
+          <p className="text-red-600 dark:text-red-400 font-semibold text-lg mb-2">{t.common.connectionError}</p>
+          <p className="text-red-400 dark:text-red-300 text-xs mt-2">{error}</p>
+        </div>
+      ) : loading ? (
         <LoadingSpinner />
       ) : (
         <>
@@ -109,15 +105,14 @@ const Constituencies = () => {
               {t.constituencies.showingCount} {filteredAndSorted.length}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-              {filteredAndSorted.map((row, idx) => (
-                (() => {
-                  const isCandidateSort = sortBy === "candidateCount";
-                  const primaryLabel = isCandidateSort ? t.common.candidates : t.common.votes;
-                  const primaryValue = isCandidateSort ? row.candidateCount : row.totalVotes;
-                  const secondaryLabel = isCandidateSort ? t.common.votes : t.common.candidates;
-                  const secondaryValue = isCandidateSort ? row.totalVotes : row.candidateCount;
+              {filteredAndSorted.map((row, idx) => {
+                const isCandidateSort = sortBy === "candidateCount";
+                const primaryLabel = isCandidateSort ? t.common.candidates : t.common.votes;
+                const primaryValue = isCandidateSort ? row.candidateCount : row.totalVotes;
+                const secondaryLabel = isCandidateSort ? t.common.votes : t.common.candidates;
+                const secondaryValue = isCandidateSort ? row.totalVotes : row.candidateCount;
 
-                  return (
+                return (
                 <Link
                   key={row.constituency}
                   to={`/constituencies/${encodeURIComponent(row.constituency)}`}
@@ -140,9 +135,8 @@ const Constituencies = () => {
                     </p>
                   </div>
                 </Link>
-                  );
-                })()
-              ))}
+                );
+              })}
             </div>
             {!filteredAndSorted.length && (
               <p className="text-sm text-gray-500 dark:text-slate-300 mt-4">

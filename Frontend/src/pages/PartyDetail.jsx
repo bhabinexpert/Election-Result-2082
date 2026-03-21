@@ -5,7 +5,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import DataTable from "../components/DataTable";
 import { formatNumber } from "../utils/formatters";
 import { getPartyLogo } from "../utils/partyLogo";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 
 const PartyDetail = () => {
   const { partyName } = useParams();

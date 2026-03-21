@@ -1,8 +1,10 @@
 const VISITOR_KEY = "election2082_visitor_id";
 
 const createVisitorId = () => {
-  const randomPart = Math.random().toString(36).slice(2);
-  return `v_${Date.now().toString(36)}_${randomPart}`;
+  const timestamp = Date.now().toString(36);
+  const random = Math.random().toString(36).substring(2, 15);
+  const extra = Math.random().toString(36).substring(2, 8);
+  return `v_${timestamp}_${random}_${extra}`;
 };
 
 export const getOrCreateVisitorId = () => {

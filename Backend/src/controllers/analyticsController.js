@@ -8,8 +8,10 @@ const isValidVisitorId = (visitorId) =>
 export const trackPageView = async (req, res) => {
   try {
     const { path, visitorId } = req.body;
+    console.log(`[ANALYTICS] Track: path=${path}, visitorId=${visitorId.substring(0, 8)}...`);
 
     if (!isValidPath(path) || !isValidVisitorId(visitorId)) {
+      console.warn(`[ANALYTICS] Invalid: path valid=${isValidPath(path)}, id valid=${isValidVisitorId(visitorId)}`);
       return res.status(400).json({ success: false, message: "Invalid path or visitorId" });
     }
 
@@ -18,12 +20,14 @@ export const trackPageView = async (req, res) => {
       visitorId: visitorId.trim(),
       userAgent: req.headers["user-agent"] || "",
     });
+    console.log(`[ANALYTICS] Saved: _id=${doc._id}, path=${path}`);
 
     res.status(201).json({
       success: true,
       data: { id: doc._id, path: doc.path, visitorId: doc.visitorId, createdAt: doc.createdAt },
     });
   } catch (error) {
+    console.error(`[ANALYTICS] Track error:`, error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -31,8 +35,10 @@ export const trackPageView = async (req, res) => {
 export const getPageViewStats = async (req, res) => {
   try {
     const { path, visitorId } = req.query;
+    console.log(`[ANALYTICS] GetStats: path=${path}, visitorId=${visitorId ? visitorId.substring(0, 8) + "..." : "none"}`);
 
     if (!isValidPath(path)) {
+      console.warn(`[ANALYTICS] Invalid path: "${path}"`);
       return res.status(400).json({ success: false, message: "Invalid path" });
     }
 
@@ -41,6 +47,7 @@ export const getPageViewStats = async (req, res) => {
       PageView.distinct("visitorId", { path }).then((ids) => ids.length),
       isValidVisitorId(visitorId) ? PageView.countDocuments({ path, visitorId: visitorId.trim() }) : 0,
     ]);
+    console.log(`[ANALYTICS] Stats: path=${path}, total=${totalViews}, unique=${uniqueVisitors}, mine=${myViews}`);
 
     res.json({
       success: true,
@@ -52,6 +59,7 @@ export const getPageViewStats = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error(`[ANALYTICS] GetStats error:`, error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };

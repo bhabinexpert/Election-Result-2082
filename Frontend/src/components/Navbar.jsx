@@ -18,15 +18,15 @@ const Navbar = () => {
 
   return (
     <nav className="bg-linear-to-r from-[#1B2A4A]/95 via-[#162240]/95 to-[#0F1A33]/95 text-white shadow-lg sticky top-0 z-50 backdrop-blur-md border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo and Title */}
           <NavLink to="/" className="flex items-center gap-3 group">
             <div className="bg-white/10 p-1.5 rounded-lg group-hover:bg-white/20 transition-colors">
               <NepalFlag size={28} />
             </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">
+            <div className="hidden sm:block">
+              <h1 className="text-lg sm:text-xl font-bold tracking-tight">
                 {t.app.title}
               </h1>
               <p className="text-xs text-blue-300 -mt-0.5">
@@ -37,17 +37,21 @@ const Navbar = () => {
 
           {/* Navigation Links */}
           <div className="flex items-center gap-2">
-            <NavLink to="/" end className={linkClass}>
-              {t.nav.dashboard}
+            <NavLink to="/" end className={linkClass + " text-xs sm:text-sm"}>
+              <span className="hidden sm:inline">{t.nav.dashboard}</span>
+              <span className="sm:hidden">D</span>
             </NavLink>
-            <NavLink to="/candidates" className={linkClass}>
-              {t.nav.candidates}
+            <NavLink to="/candidates" className={linkClass + " text-xs sm:text-sm"}>
+              <span className="hidden sm:inline">{t.nav.candidates}</span>
+              <span className="sm:hidden">C</span>
             </NavLink>
-            <NavLink to="/parties" className={linkClass}>
-              {t.nav.parties}
+            <NavLink to="/parties" className={linkClass + " text-xs sm:text-sm"}>
+              <span className="hidden sm:inline">{t.nav.parties}</span>
+              <span className="sm:hidden">P</span>
             </NavLink>
-            <NavLink to="/constituencies" className={linkClass}>
-              {t.nav.constituencies}
+            <NavLink to="/constituencies" className={linkClass + " text-xs sm:text-sm"}>
+              <span className="hidden sm:inline">{t.nav.constituencies}</span>
+              <span className="sm:hidden">CS</span>
             </NavLink>
             <button
               onClick={() => setLanguage(language === "en" ? "ne" : "en")}

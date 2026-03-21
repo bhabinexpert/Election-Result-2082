@@ -68,11 +68,11 @@ const Dashboard = () => {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6">
       {/* Page Title */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-slate-100">{t.dashboard.title}</h2>
-        <p className="text-sm text-gray-500 dark:text-slate-300 mt-1">{t.dashboard.subtitle}</p>
+      <div className="mb-4 sm:mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-slate-100">{t.dashboard.title}</h2>
+        <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-300 mt-1">{t.dashboard.subtitle}</p>
       </div>
 
       {/* Filters */}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 import { formatNumber } from "../utils/formatters";
 import { getStatsByParty } from "../services/api";
 import { getPartyLogo } from "../utils/partyLogo";
@@ -12,6 +12,7 @@ const Parties = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { t } = useAppSettings();
+  const fallbackPartyError = t.common.failedFetchPartyStats;
 
   useEffect(() => {
     const load = async () => {
@@ -21,13 +22,13 @@ const Parties = () => {
         const res = await getStatsByParty({ limit: 25 });
         setPartyStats(res.data.data || []);
       } catch (err) {
-        setError(err.message || t.common.failedFetchPartyStats);
+        setError(err.message || fallbackPartyError);
       } finally {
         setLoading(false);
       }
     };
     load();
-  }, []);
+  }, [fallbackPartyError]);
 
   useEffect(() => {
     const loadLogos = async () => {

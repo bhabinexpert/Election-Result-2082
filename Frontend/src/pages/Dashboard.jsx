@@ -13,7 +13,7 @@ import DistrictChart from "../components/DistrictChart";
 import DataTable from "../components/DataTable";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { formatNumber } from "../utils/formatters";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
 import {
   HiOutlineUsers,
   HiOutlineChartBar,
@@ -125,10 +125,11 @@ const Dashboard = () => {
               subtitle={overview?.topCandidate?.candidate_name || ""}
             />
             <StatCard
-              title={t.dashboard.averageAge}
-              value={`${overview?.averageAge || 0} ${t.common.years}`}
+              title={t.dashboard.filteredResults}
+              value={tableData?.pagination?.total || 0}
               icon={<HiOutlineUserGroup />}
               color="ocean"
+              subtitle={t.dashboard.matchingFilters}
             />
             <StatCard
               title={t.dashboard.provinces}

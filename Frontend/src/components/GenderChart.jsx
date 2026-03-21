@@ -6,7 +6,21 @@ import {
 } from "recharts";
 import { formatNumber } from "../utils/formatters";
 import { GENDER_COLORS } from "../utils/colors";
-import { useAppSettings } from "../context/AppSettingsContext";
+import { useAppSettings } from "../context/useAppSettings";
+
+const GenderTooltip = ({ active, payload, t }) => {
+  if (active && payload?.[0]) {
+    const d = payload[0].payload;
+    return (
+      <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 text-sm">
+        <p className="font-semibold text-gray-800 dark:text-slate-100">{d.name}</p>
+        <p className="text-gray-500 dark:text-slate-300">{t.common.candidates}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.candidates)}</span></p>
+        <p className="text-gray-500 dark:text-slate-300">{t.common.votes}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.votes)}</span></p>
+      </div>
+    );
+  }
+  return null;
+};
 
 const GenderChart = ({ data }) => {
   const { t } = useAppSettings();
@@ -24,20 +38,6 @@ const GenderChart = ({ data }) => {
     votes: d.totalVotes,
     color: GENDER_COLORS[d.gender] || "#9CA3AF",
   }));
-
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload?.[0]) {
-      const d = payload[0].payload;
-      return (
-        <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 text-sm">
-          <p className="font-semibold text-gray-800 dark:text-slate-100">{d.name}</p>
-          <p className="text-gray-500 dark:text-slate-300">{t.common.candidates}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.candidates)}</span></p>
-          <p className="text-gray-500 dark:text-slate-300">{t.common.votes}: <span className="font-medium text-gray-800 dark:text-slate-100">{formatNumber(d.votes)}</span></p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-5">
@@ -58,7 +58,7 @@ const GenderChart = ({ data }) => {
               <Cell key={i} fill={entry.color} opacity={0.85} />
             ))}
           </Pie>
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<GenderTooltip t={t} />} />
           <Legend verticalAlign="bottom" />
         </PieChart>
       </ResponsiveContainer>

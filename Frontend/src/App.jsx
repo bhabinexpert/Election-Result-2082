@@ -11,7 +11,6 @@ import Parties from "./pages/Parties";
 import Constituencies from "./pages/Constituencies";
 import PartyDetail from "./pages/PartyDetail";
 import ConstituencyDetail from "./pages/ConstituencyDetail";
-import LoadingSpinner from "./components/LoadingSpinner";
 import { useAppSettings } from "./context/useAppSettings";
 import { getGlobalStats, trackPageView } from "./services/api";
 import { getOrCreateVisitorId } from "./utils/visitor";
@@ -68,7 +67,7 @@ const AppContent = () => {
           <div className="max-w-7xl mx-auto mt-2 sm:mt-3 px-3 sm:px-4 md:px-6 lg:px-8 flex flex-col sm:flex-row justify-center sm:justify-end gap-2 sm:gap-0">
             {viewsStatus === "loading" ? (
               <div className="rounded-lg sm:rounded-xl border border-blue-200/90 dark:border-blue-700 bg-blue-50/90 dark:bg-blue-950/90 backdrop-blur-sm px-3 sm:px-4 py-2 text-xs sm:text-sm text-blue-700 dark:text-blue-200 shadow-sm flex items-center gap-2">
-                <LoadingSpinner size={14} />
+                <div className="w-4 h-4 border-2 border-blue-200 dark:border-slate-600 border-t-blue-600 dark:border-t-cyan-400 rounded-full animate-spin"></div>
                 <span>...</span>
               </div>
             ) : viewsStatus === "error" ? (

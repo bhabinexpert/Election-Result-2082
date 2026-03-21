@@ -11,6 +11,9 @@ export const translations = {
       subtitle: "House of Representatives",
       footer:
         "Nepal Election 2082 Results Dashboard — Built with Love by Bhabin.",
+      viewsLabel: "Page Views",
+      uniqueVisitorsLabel: "Unique Visitors",
+      yourViewsLabel: "Your Views",
     },
     common: {
       noData: "No data available",
@@ -155,6 +158,9 @@ export const translations = {
       title: "नेपाल निर्वाचन २०८२",
       subtitle: "प्रतिनिधि सभा",
       footer: "नेपाल निर्वाचन २०८२ नतिजा ड्यासबोर्ड — प्रेम सहित निर्माण।",
+      viewsLabel: "पृष्ठ दृश्य",
+      uniqueVisitorsLabel: "अद्वितीय आगन्तुक",
+      yourViewsLabel: "तपाईंका दृश्य",
     },
     common: {
       noData: "डाटा उपलब्ध छैन",

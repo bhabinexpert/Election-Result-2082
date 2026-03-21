@@ -1,7 +1,6 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { translations } from "../i18n/translations";
-
-const AppSettingsContext = createContext(null);
+import { AppSettingsContext } from "./AppSettingsContextValue";
 
 export const AppSettingsProvider = ({ children }) => {
   const [language, setLanguage] = useState(
@@ -37,13 +36,5 @@ export const AppSettingsProvider = ({ children }) => {
       {children}
     </AppSettingsContext.Provider>
   );
-};
-
-export const useAppSettings = () => {
-  const context = useContext(AppSettingsContext);
-  if (!context) {
-    throw new Error("useAppSettings must be used within AppSettingsProvider");
-  }
-  return context;
 };
 

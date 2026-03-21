@@ -21,6 +21,10 @@ const API = axios.create({
   baseURL: `${API_URL}/api/elections`,
 });
 
+const ANALYTICS_API = axios.create({
+  baseURL: `${API_URL}/api/analytics`,
+});
+
 /**
  * Builds query string from filter object, excluding empty values
  */
@@ -73,5 +77,13 @@ export const getCandidateById = (id) => API.get(`/${id}`);
 
 /** Fetch all filter options for dropdowns */
 export const getFilterOptions = () => API.get("/filters");
+
+/** Track one page view event */
+export const trackPageView = ({ path, visitorId }) =>
+  ANALYTICS_API.post("/views", { path, visitorId });
+
+/** Get page view stats for one page */
+export const getPageViewStats = ({ path, visitorId }) =>
+  ANALYTICS_API.get("/views", { params: buildParams({ path, visitorId }) });
 
 export default API;
